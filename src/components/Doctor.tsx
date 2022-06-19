@@ -1,21 +1,34 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import { Avatar } from 'antd';
+import DoctorDetails from "./DoctorDetails";
 
 interface DoctorProps {
     doctor: {
         id: number,
         name: string,
         specialty: string,
+        ratings: number,
+        score: number,
+        satisfaction: number,
         hospital: string,
         qualifications: string[],
         phone: string,
         fax: string,
-        profile: string
+        profile: string,
+        about: string,
     };
-    showDrawer: any
 }
  
 const Doctor: FunctionComponent<DoctorProps> = (props) => {
+    const [visible, setVisible] = useState(false);
+
+    const showDrawer = () => {
+        setVisible(true);
+    };
+
+    const onClose = () => {
+        setVisible(false);
+    };
     return ( 
         <>
             <div 
@@ -41,7 +54,7 @@ const Doctor: FunctionComponent<DoctorProps> = (props) => {
                         className="flex justify-items-center"
                     />
                     <div className=" w-[80%] h-[100%] pt-2 pb-2 pl-7 pr-16 leading-7">
-                        <h1 className="text-2xl cursor-pointer" onClick={props.showDrawer}>{props.doctor.name},{props.doctor.qualifications.join(',')}</h1>
+                        <h1 className="text-2xl cursor-pointer" onClick={showDrawer}>{props.doctor.name},{props.doctor.qualifications.join(',')}</h1>
                         <div className="flex justify-between pr-4">
                             <p>{props.doctor.specialty}<br/> {props.doctor.hospital}</p>
                             <button 
@@ -64,6 +77,7 @@ const Doctor: FunctionComponent<DoctorProps> = (props) => {
                 </div>
                 <div className="flex justify-around pt-8"> <p className="pl-12">Phone: {props.doctor.phone}</p>  <p>Fax: {props.doctor.fax}</p> </div>
             </div>
+            <DoctorDetails doctor={props.doctor} visible={visible} onClose={onClose}/>
         </>
     );
 }
