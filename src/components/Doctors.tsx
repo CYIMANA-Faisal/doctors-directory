@@ -1,24 +1,12 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
 import './doctors.css'
 import doctors from './../data/doctors';
-import DoctorDetails from './DoctorDetails';
 import Doctor from "./Doctor";
-
 interface DoctorsProps {
     
 }
 
 const Doctors: FunctionComponent<DoctorsProps> = () => {
-    const [visible, setVisible] = useState(false);
-
-    const showDrawer = () => {
-        setVisible(true);
-    };
-
-    const onClose = () => {
-        setVisible(false);
-    };
-    
     return ( 
         <div 
             className="
@@ -38,10 +26,9 @@ const Doctors: FunctionComponent<DoctorsProps> = () => {
         >
             {
                 doctors.map((doctor) => (
-                    <Doctor doctor={doctor} showDrawer={showDrawer} key={doctor.id}/>
+                    <Doctor doctor={doctor} key={doctor.id}/>
                 ))
             }
-            <DoctorDetails visible={visible} onClose={onClose}/>
         </div>
     );
 }
