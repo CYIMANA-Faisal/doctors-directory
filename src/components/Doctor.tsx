@@ -48,16 +48,19 @@ const Doctor: FunctionComponent<DoctorProps> = (props) => {
                     "
                 >
                 <div className="w-[100%] flex justify-center pb-5">
-                    <Avatar
-                        size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
-                        src={props.doctor.profile}
-                        className="flex justify-items-center"
-                    />
+                    <div onClick={showDrawer} className="cursor-pointer">
+                        <Avatar
+                            size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
+                            src={props.doctor.profile}
+                            className="flex justify-items-center"
+                        />
+                    </div>
                     <div className=" w-[80%] h-[100%] pt-2 pb-2 pl-7 pr-16 leading-7">
                         <h1 className="text-2xl cursor-pointer" onClick={showDrawer}>{props.doctor.name},{props.doctor.qualifications.join(',')}</h1>
                         <div className="flex justify-between pr-4">
                             <p>{props.doctor.specialty}<br/> {props.doctor.hospital}</p>
                             <button 
+                            onClick={showDrawer}
                             className="
                                 rounded 
                                 bg-orange-500 
