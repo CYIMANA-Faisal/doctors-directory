@@ -1,6 +1,8 @@
-import { FunctionComponent } from "react";
-import { Button, Drawer, Space, Image, Rate, Slider } from 'antd';
+import { FunctionComponent, useState } from "react";
+import { Button, Drawer, Space, Image, Rate, Slider, DatePicker, Tag, message } from 'antd';
 import './doctors.css'
+import BookingModal from "./Modal";
+// import { format } from "date-fns";
 
 interface DoctorDetailsProps {
     doctor: {
@@ -22,6 +24,33 @@ interface DoctorDetailsProps {
 }
  
 const DoctorDetails: FunctionComponent<DoctorDetailsProps> = (props) => {
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+    const times = [
+        '08 AM',
+        '09 AM',
+        '10 AM',
+        '11 AM',
+        '12 PM',
+        '01 PM',
+        '02 PM',
+        '03 PM',
+        '06 PM',
+        '07 PM',
+        '09 PM',
+    ];
+    const cantBook = () => {
+        message.error("You can not book this slot");
+    };
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
     return ( 
         <>
             <Drawer
@@ -33,7 +62,7 @@ const DoctorDetails: FunctionComponent<DoctorDetailsProps> = (props) => {
                 bodyStyle={{ paddingBottom: 80 }}
                 extra={
                 <Space>
-                    <Button className='bg-orange-500 border border-orange-500 rounded text-white font-bold hover:bg-orange-400 hover:border-orange-400 hover:text-white' onClick={props.onClose}>BOOK AN APPOINTMENT</Button>
+                    <Button className='bg-orange-500 border border-orange-500 rounded text-white font-bold hover:bg-orange-400 hover:border-orange-400 hover:text-white' onClick={props.onClose}>Close</Button>
                 </Space>
                 }
             >
@@ -54,10 +83,21 @@ const DoctorDetails: FunctionComponent<DoctorDetailsProps> = (props) => {
                         <p className="text-lg font-serif font-bold pt-2">SATISFACTION: <Slider defaultValue={props.doctor.satisfaction} disabled={true} tooltipVisible={props.visible} /></p>
                     </div>
                     <div className="w-[100%] h-[30%] mb-4 pt-7">
-                        <h1 className="text-4xl text-orange-500 underline font-bold font-serif">About</h1>
+                        <h1 className="text-4xl text-orange-500 font-bold font-serif">About</h1>
                         <p className="font-serif p-4 text-gray-600 text-lg">
                            {props.doctor.about}
                         </p>
+                    </div>
+                    <div className="w-[100%] h-[30%] mb-4 pt-7 mt-4">
+                        <h1 className="text-4xl text-orange-500 font-bold font-serif">Availability</h1>
+                        <div className="text-lg pl-4"><DatePicker className="mt-4 text-orange-500" bordered={true} format={'YYYY/MM/DD'} /></div>
+                        <div className="m-4">
+                            {times.map((time, index) => (
+                                <Tag className="p-4 cursor-pointer mr-4 mt-4 rounded-md" color="default" key={index} onClick={showModal}>{time}</Tag>
+                            ))}
+                            <BookingModal isModalVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel}></BookingModal>
+                            <Tag className="p-4 cursor-pointer mr-4 mt-4 rounded-md" color="error" onClick={cantBook}>08 PM</Tag>
+                        </div>
                     </div>
                 </div>
             </Drawer>

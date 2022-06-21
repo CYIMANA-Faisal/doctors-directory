@@ -22,7 +22,6 @@ const Doctors: FunctionComponent<DoctorsProps> = () => {
                 pb-5
                 scroll
             "
-            // style={{--scrollbar-thumb: #3f51b5 !important}}
         >
             {
                 doctors.map((doctor) => (
